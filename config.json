@@ -1,0 +1,16 @@
+{
+    "postgresql": {
+        "host": "",
+        "port": "5432",
+        "ssl": "disable",
+        "database": "",
+        "username": "",
+        "password": ""
+    },
+    "server": {
+        "address": ":1649"
+    },
+    "app": {
+        "log": "log.txt"
+    }
+}
