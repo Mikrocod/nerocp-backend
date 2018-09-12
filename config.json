@@ -11,6 +11,7 @@
         "address": ":1649"
     },
     "app": {
-        "log": "log.txt"
+        "logType": "file",
+        "logFile": "log.txt"
     }
 }

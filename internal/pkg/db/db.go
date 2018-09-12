@@ -8,13 +8,13 @@ import (
 )
 
 var (
-	// postgresql database
-	db *sql.DB
+	// DB postgresql database
+	DB *sql.DB
 )
 
 // Connect to postgresql database
 func Connect() {
 	var err error
-	db, err = sql.Open("postgres", "postgres://"+config.Get("postgresql", "username")+":"+config.Get("postgresql", "password")+"@"+config.Get("postgresql", "host")+"/"+config.Get("postgresql", "database")+"?sslmode="+config.Get("postgresql", "ssl"))
+	DB, err = sql.Open("postgres", "postgres://"+config.Get("postgresql", "username")+":"+config.Get("postgresql", "password")+"@"+config.Get("postgresql", "host")+"/"+config.Get("postgresql", "database")+"?sslmode="+config.Get("postgresql", "ssl"))
 	shorts.Check(err)
 }
