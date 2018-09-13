@@ -111,14 +111,33 @@ func handleConn(conn net.Conn) {
 		response["error"] = 403
 		handler.Write(conn, response)
 		return
+	} else if typ == "login" {
+		// query database for permissions
+		rows, err := db.DB.Query("SELECT permission FROM roles WHERE role = $1;", *role)
+		shorts.Check(err)
+
+		// loop through rows
+		permissions := []string{}
+		for rows.Next() {
+			// scan and add to slice
+			var permission string
+			rows.Scan(&permission)
+			permissions = append(permissions, permission)
+		}
+
+		// set permissions in response
+		response["permissions"] = permissions
+		handler.Write(conn, response)
+		return
 	}
+
 	// handle with handler
 	handler.Get(typ).Handle(conn, request)
 }
 
 // verify login
 func verifyLogin(username, password string) *string {
-	// query database
+	// query database for user role
 	var role string
 	row := db.DB.QueryRow("SELECT role FROM users WHERE username = $1 AND password = $2;", username, password).Scan(&role)
 

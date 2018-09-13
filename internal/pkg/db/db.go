@@ -26,7 +26,7 @@ func Connect() {
 		PRIMARY KEY (roleID));
 
 	-- Permissions
-	CREATE TABLE IF NOT EXISTS permissions (persmission VARCHAR(255), role INT,
+	CREATE TABLE IF NOT EXISTS permissions (role INT, permission VARCHAR(255),
 		FOREIGN KEY (role) REFERENCES roles (roleID) ON DELETE CASCADE);
 
 	-- Users

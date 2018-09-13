@@ -11,5 +11,8 @@ type DefaultHandler int
 
 // Handle connection
 func (h DefaultHandler) Handle(conn net.Conn, request map[string]interface{}) {
-	handler.Write(conn, map[string]interface{}{})
+	// respond with error 404
+	response := map[string]interface{}{}
+	response["error"] = 404
+	handler.Write(conn, response)
 }
