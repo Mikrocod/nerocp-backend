@@ -108,16 +108,10 @@ func handleConn(conn net.Conn) {
 	// process verification
 	if typ == "" || username == "" || password == "" || role == nil {
 		// wrong login
-		response["valid"] = false
-		handler.Write(conn, response)
-		return
-	} else if typ == "login" {
-		// correct login
-		response["valid"] = true
+		response["error"] = 403
 		handler.Write(conn, response)
 		return
 	}
-
 	// handle with handler
 	handler.Get(typ).Handle(conn, request)
 }
