@@ -22,7 +22,7 @@ func Connect() {
 	// setup tables
 	_, err = DB.Exec(`-- Setup
 	-- Roles
-	CREATE TABLE IF NOT EXISTS roles (roleID SERIAL UNIQUE, roleName VARCHAR(255),
+	CREATE TABLE IF NOT EXISTS roles (roleID SERIAL UNIQUE, roleName VARCHAR(255) UNIQUE,
 		PRIMARY KEY (roleID));
 
 	-- Permissions

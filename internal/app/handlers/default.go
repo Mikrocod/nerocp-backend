@@ -6,11 +6,11 @@ import (
 	"lheinrich.de/nerocp-backend/pkg/handler"
 )
 
-// DefaultHandler handle all requests
-type DefaultHandler int
+// Default handle all requests
+type Default int
 
 // Handle connection
-func (h DefaultHandler) Handle(conn net.Conn, request map[string]interface{}) {
+func (h Default) Handle(conn net.Conn, request map[string]interface{}) {
 	// respond with error 404
 	response := map[string]interface{}{}
 	response["error"] = 404

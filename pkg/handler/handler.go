@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net"
+	"strings"
 
 	"lheinrich.de/nerocp-backend/pkg/shorts"
 )
@@ -19,7 +20,7 @@ type Handler interface {
 
 // Get handler by name
 func Get(name string) Handler {
-	h, exists := handlersMap[name]
+	h, exists := handlersMap[strings.ToLower(name)]
 	if !exists {
 		// return default if not exists
 		h = handlersMap["default"]
@@ -29,7 +30,7 @@ func Get(name string) Handler {
 
 // Add handler with name
 func Add(name string, h Handler) {
-	handlersMap[name] = h
+	handlersMap[strings.ToLower(name)] = h
 }
 
 // Read and unmarshal to map[string]interface{}

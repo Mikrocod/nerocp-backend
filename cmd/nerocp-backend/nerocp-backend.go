@@ -30,6 +30,7 @@ func main() {
 	setupLogging()
 	db.Connect()
 	startServer()
+	registerHandlers()
 
 	// external
 	fmt.Println("nerocp-backend (c) 2018 Lennart Heinrich")
@@ -37,6 +38,13 @@ func main() {
 
 	// keep open
 	<-make(chan bool)
+}
+
+// register known handlers
+func registerHandlers() {
+	handler.Add("getperms", handlers.GetPerms(0))
+	handler.Add("getroleid", handlers.GetRoleID(0))
+	handler.Add("getrolename", handlers.GetRoleName(0))
 }
 
 // setup logging
@@ -75,7 +83,7 @@ func startServer() {
 // listener for incoming connections
 func listen(listener net.Listener) {
 	// add default handler
-	handler.Add("default", handlers.DefaultHandler(0))
+	handler.Add("default", handlers.Default(0))
 
 	for {
 		// accept connection
@@ -112,21 +120,8 @@ func handleConn(conn net.Conn) {
 		handler.Write(conn, response)
 		return
 	} else if typ == "login" {
-		// query database for permissions
-		rows, err := db.DB.Query("SELECT permission FROM roles WHERE role = $1;", *role)
-		shorts.Check(err)
-
-		// loop through rows
-		permissions := []string{}
-		for rows.Next() {
-			// scan and add to slice
-			var permission string
-			rows.Scan(&permission)
-			permissions = append(permissions, permission)
-		}
-
-		// set permissions in response
-		response["permissions"] = permissions
+		// respond with role id
+		response["roleID"] = role
 		handler.Write(conn, response)
 		return
 	}
@@ -136,9 +131,9 @@ func handleConn(conn net.Conn) {
 }
 
 // verify login
-func verifyLogin(username, password string) *string {
+func verifyLogin(username, password string) *int {
 	// query database for user role
-	var role string
+	var role int
 	row := db.DB.QueryRow("SELECT role FROM users WHERE username = $1 AND password = $2;", username, password).Scan(&role)
 
 	// not exists or wrong login data
