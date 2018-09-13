@@ -1,11 +1,11 @@
 {
     "postgresql": {
-        "host": "",
+        "host": "127.0.0.1",
         "port": "5432",
         "ssl": "disable",
-        "database": "",
-        "username": "",
-        "password": ""
+        "database": "nerocp",
+        "username": "nerocp",
+        "password": "nerocp"
     },
     "server": {
         "address": ":1649"
