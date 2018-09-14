@@ -39,12 +39,13 @@ func Read(conn net.Conn) map[string]interface{} {
 
 	// read from connection
 	requestBytes := make([]byte, 1024)
-	_, err = conn.Read(requestBytes)
+	var readLength int
+	readLength, err = conn.Read(requestBytes)
 	shorts.Check(err)
 
 	// unmarshal json
 	var request map[string]interface{}
-	err = json.Unmarshal(requestBytes, &request)
+	err = json.Unmarshal(requestBytes[:readLength], &request)
 	shorts.Check(err)
 
 	// return map
