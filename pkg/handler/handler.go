@@ -80,14 +80,25 @@ func GetString(request map[string]interface{}, name string) string {
 	return ""
 }
 
-// GetInt get string or 0
+// GetInt get int or 0
 func GetInt(request map[string]interface{}, name string) int {
 	// cast
 	value, ok := request[name].(int)
 
-	// return value
+	// check exists
 	if ok {
+		// return int
 		return value
+	}
+
+	// cast float
+	var float float64
+	float, ok = request[name].(float64)
+
+	// check float exists
+	if ok {
+		// return float as int
+		return int(float)
 	}
 
 	// return 0
