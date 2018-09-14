@@ -22,7 +22,7 @@ func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}) {
 	// query database for permissions
 	rows, err := db.DB.Query(`SELECT permissions.permission FROM permissions
 	INNER JOIN users ON permissions.role = users.role
-	WHERE permissions.role = $1 AND username = $2 AND password = $3;`,
+	WHERE permissions.role = $1 AND username = $2 AND passwordhash = $3;`,
 		roleID, username, password)
 	shorts.Check(err)
 
