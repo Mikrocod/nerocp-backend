@@ -65,3 +65,45 @@ func Write(conn net.Conn, response map[string]interface{}) {
 	_, err = conn.Write(responseBytes)
 	shorts.Check(err)
 }
+
+// GetString get string or empty string
+func GetString(request map[string]interface{}, name string) string {
+	// cast
+	value, ok := request[name].(string)
+
+	// return value
+	if ok {
+		return value
+	}
+
+	// return empty string
+	return ""
+}
+
+// GetInt get string or 0
+func GetInt(request map[string]interface{}, name string) int {
+	// cast
+	value, ok := request[name].(int)
+
+	// return value
+	if ok {
+		return value
+	}
+
+	// return 0
+	return 0
+}
+
+// GetBool get string or false
+func GetBool(request map[string]interface{}, name string) bool {
+	// cast
+	value, ok := request[name].(bool)
+
+	// return value
+	if ok {
+		return value
+	}
+
+	// return false
+	return false
+}
