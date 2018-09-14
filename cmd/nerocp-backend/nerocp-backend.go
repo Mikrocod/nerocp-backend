@@ -125,7 +125,7 @@ func handleConn(conn net.Conn) {
 		return
 	} else if typ == "login" {
 		// respond with role id
-		response["roleID"] = role
+		response["roleID"] = *role
 		handler.Write(conn, response)
 		return
 	}
@@ -138,7 +138,7 @@ func handleConn(conn net.Conn) {
 func verifyLogin(username, password string) *int {
 	// query database for user role
 	var role int
-	row := db.DB.QueryRow("SELECT role FROM users WHERE username = $1 AND password = $2;", username, password).Scan(&role)
+	row := db.DB.QueryRow("SELECT role FROM users WHERE username = $1 AND passwordhash = $2;", username, password).Scan(&role)
 
 	// not exists or wrong login data
 	if row == sql.ErrNoRows {
