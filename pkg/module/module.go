@@ -3,6 +3,7 @@ package module
 import (
 	"io/ioutil"
 	"plugin"
+	"strings"
 
 	"lheinrich.de/nerocp-backend/pkg/shorts"
 )
@@ -27,7 +28,9 @@ func LoadModules() {
 
 	// loop through files and load modules
 	for _, file := range files {
-		LoadModule("modules/" + file.Name())
+		if !strings.HasPrefix(file.Name(), ".") {
+			LoadModule("modules/" + file.Name())
+		}
 	}
 }
 
