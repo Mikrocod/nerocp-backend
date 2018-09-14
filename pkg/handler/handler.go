@@ -38,7 +38,7 @@ func Read(conn net.Conn) map[string]interface{} {
 	var err error
 
 	// read from connection
-	var requestBytes []byte
+	requestBytes := make([]byte, 1024)
 	_, err = conn.Read(requestBytes)
 	shorts.Check(err)
 
