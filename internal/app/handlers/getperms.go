@@ -13,8 +13,14 @@ type GetPerms int
 
 // Handle connection
 func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}) {
+	// close connection if no role id sent
+	roleID := request["roleID"]
+	if roleID == nil {
+		return
+	}
+
 	// query database for permissions
-	rows, err := db.DB.Query("SELECT permission FROM roles WHERE role = $1;", request["roleID"])
+	rows, err := db.DB.Query("SELECT permission FROM roles WHERE role = $1;", roleID.(string))
 	shorts.Check(err)
 
 	// loop through rows

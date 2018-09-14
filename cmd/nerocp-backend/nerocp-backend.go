@@ -105,9 +105,13 @@ func handleConnSafe(conn net.Conn) {
 func handleConn(conn net.Conn) {
 	// define variables
 	request := handler.Read(conn)
-	typ := request["type"].(string)
-	username := request["username"].(string)
-	password := request["password"].(string)
+	rawTyp, rawUsername, rawPassword := request["type"], request["username"], request["password"]
+
+	// close connection if no type, username and password defined
+	if rawTyp == nil || rawUsername == nil || rawPassword == nil {
+		return
+	}
+	typ, username, password := rawTyp.(string), rawUsername.(string), rawPassword.(string)
 
 	// verify login
 	role := verifyLogin(username, password)
