@@ -3,6 +3,8 @@ package db
 import (
 	"database/sql"
 
+	"lheinrich.de/nerocp-backend/pkg/crypter"
+
 	"golang.org/x/crypto/bcrypt"
 
 	"lheinrich.de/nerocp-backend/pkg/config"
@@ -54,8 +56,9 @@ func Connect() {
 	err = DB.QueryRow("SELECT username FROM users;").Scan(&trash)
 	if err == sql.ErrNoRows {
 		// generate bcrypt hash
+		passwordHashSHA3 := crypter.Hash("nerocp_" + crypter.Hash("admin"))
 		var passwordHash []byte
-		passwordHash, err = bcrypt.GenerateFromPassword([]byte("admin"), bcrypt.DefaultCost+1)
+		passwordHash, err = bcrypt.GenerateFromPassword([]byte(passwordHashSHA3), bcrypt.DefaultCost+1)
 		shorts.Check(err)
 
 		// create default user
