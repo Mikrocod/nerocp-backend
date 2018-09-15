@@ -9,6 +9,8 @@ import (
 	"path"
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
+
 	"lheinrich.de/nerocp-backend/internal/app/handlers"
 
 	"lheinrich.de/nerocp-backend/pkg/handler"
@@ -136,11 +138,12 @@ func handleConn(conn net.Conn) {
 // verify login
 func verifyLogin(username, password string) *int {
 	// query database for user role
+	var passwordHash string
 	var role int
-	row := db.DB.QueryRow("SELECT role FROM users WHERE username = $1 AND passwordhash = $2;", username, password).Scan(&role)
+	row := db.DB.QueryRow("SELECT passwordHash, role FROM users WHERE username = $1", username, password).Scan(&passwordHash, &role)
 
 	// not exists or wrong login data
-	if row == sql.ErrNoRows {
+	if row == sql.ErrNoRows || bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(password)) != nil {
 		return nil
 	}
 
