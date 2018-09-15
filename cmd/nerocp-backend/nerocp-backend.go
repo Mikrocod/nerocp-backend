@@ -140,7 +140,7 @@ func verifyLogin(username, password string) *int {
 	// query database for user role
 	var passwordHash string
 	var role int
-	row := db.DB.QueryRow("SELECT passwordHash, role FROM users WHERE username = $1", username, password).Scan(&passwordHash, &role)
+	row := db.DB.QueryRow("SELECT passwordHash, role FROM users WHERE username = $1", username).Scan(&passwordHash, &role)
 
 	// not exists or wrong login data
 	if row == sql.ErrNoRows || bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(password)) != nil {
