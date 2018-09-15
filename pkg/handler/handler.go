@@ -5,6 +5,7 @@ import (
 	"net"
 	"strings"
 
+	"lheinrich.de/nerocp-backend/internal/pkg/db"
 	"lheinrich.de/nerocp-backend/pkg/shorts"
 )
 
@@ -15,7 +16,7 @@ var (
 
 // Handler interface for socket communication
 type Handler interface {
-	Handle(conn net.Conn, request map[string]interface{})
+	Handle(conn net.Conn, request map[string]interface{}, username string)
 }
 
 // Get handler by name
@@ -117,4 +118,32 @@ func GetBool(request map[string]interface{}, name string) bool {
 
 	// return false
 	return false
+}
+
+// HasPermission check user has permission
+func HasPermission(username, permission string) bool {
+	// query
+	err := db.DB.QueryRow(`SELECT permissions.permission FROM permissions
+	INNER JOIN users ON users.role = permissions.role
+	WHERE users.username = $1;`, username).Scan(&permission)
+	shorts.Check(err)
+
+	// check if has permission
+	if err == nil {
+		// return true
+		return true
+	}
+
+	// return false
+	return false
+}
+
+// Error respond with error code
+func Error(conn net.Conn, code int) {
+	// define response and set error code
+	response := map[string]interface{}{}
+	response["error"] = code
+
+	// Write
+	Write(conn, response)
 }

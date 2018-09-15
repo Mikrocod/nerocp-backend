@@ -12,7 +12,7 @@ import (
 type GetRoleName int
 
 // Handle connection
-func (h GetRoleName) Handle(conn net.Conn, request map[string]interface{}) {
+func (h GetRoleName) Handle(conn net.Conn, request map[string]interface{}, username string) {
 	// query database for role name
 	var roleName string
 	err := db.DB.QueryRow("SELECT roleName FROM users WHERE username = $1;", request["username"]).Scan(&roleName)

@@ -47,6 +47,7 @@ func registerHandlers() {
 	handler.Add("getperms", handlers.GetPerms(0))
 	handler.Add("getroleid", handlers.GetRoleID(0))
 	handler.Add("getrolename", handlers.GetRoleName(0))
+	handler.Add("getusers", handlers.GetUsers(0))
 }
 
 // setup logging

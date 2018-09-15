@@ -12,18 +12,11 @@ import (
 type GetPerms int
 
 // Handle connection
-func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}) {
-	// close connection if no role id sent
-	roleID, username := handler.GetInt(request, "roleID"), handler.GetString(request, "username")
-	if roleID == 0 {
-		return
-	}
-
+func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}, username string) {
 	// query database for permissions
 	rows, err := db.DB.Query(`SELECT permissions.permission FROM permissions
-	INNER JOIN users ON permissions.role = users.role
-	WHERE permissions.role = $1 AND users.username = $2;`,
-		roleID, username)
+	INNER JOIN users ON users.role = permissions.role
+	WHERE users.username = $1;`, username)
 	shorts.Check(err)
 
 	// loop through rows
