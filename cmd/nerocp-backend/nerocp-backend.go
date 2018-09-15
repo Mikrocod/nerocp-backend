@@ -133,7 +133,7 @@ func handleConn(conn net.Conn) {
 	}
 
 	// handle with handler
-	handler.Get(typ).Handle(conn, request)
+	handler.Get(typ).Handle(conn, request, username)
 }
 
 // verify login
