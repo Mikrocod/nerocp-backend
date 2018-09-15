@@ -14,7 +14,7 @@ type GetPerms int
 // Handle connection
 func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}) {
 	// close connection if no role id sent
-	roleID, username, password := handler.GetInt(request, "roleID"), handler.GetString(request, "username"), handler.GetString(request, "password")
+	roleID, username := handler.GetInt(request, "roleID"), handler.GetString(request, "username")
 	if roleID == 0 {
 		return
 	}
@@ -22,8 +22,8 @@ func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}) {
 	// query database for permissions
 	rows, err := db.DB.Query(`SELECT permissions.permission FROM permissions
 	INNER JOIN users ON permissions.role = users.role
-	WHERE permissions.role = $1 AND username = $2 AND passwordhash = $3;`,
-		roleID, username, password)
+	WHERE permissions.role = $1 AND users.username = $2;`,
+		roleID, username)
 	shorts.Check(err)
 
 	// loop through rows
