@@ -181,7 +181,7 @@ func handleConnSafe(conn net.Conn) {
 
 	err = handleConn(conn)
 	if err != nil {
-		handler.Write(conn, map[string]interface{}{"error": err})
+		handler.Write(conn, map[string]interface{}{"error": err.Error()})
 	}
 	conn.Close()
 }
