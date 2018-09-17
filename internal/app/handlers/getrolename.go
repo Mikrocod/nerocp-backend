@@ -14,7 +14,9 @@ type GetRoleName int
 func (h GetRoleName) Handle(conn net.Conn, request map[string]interface{}, username string) error {
 	// query database for role name
 	var roleName string
-	err := db.DB.QueryRow("SELECT roleName FROM users WHERE username = $1;", request["username"]).Scan(&roleName)
+	err := db.DB.QueryRow(`SELECT roles.roleName FROM roles
+	INNER JOIN users ON users.role = roles.roleID
+	WHERE username = $1;`, request["username"]).Scan(&roleName)
 	if err != nil {
 		return err
 	}
