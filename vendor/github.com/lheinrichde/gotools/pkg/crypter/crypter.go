@@ -8,8 +8,6 @@ import (
 	"encoding/hex"
 	"io"
 
-	"lheinrich.de/nerocp-backend/pkg/shorts"
-
 	"golang.org/x/crypto/sha3"
 )
 
@@ -46,17 +44,22 @@ func GenerateKey(key string) []byte {
 	}
 
 	// return key or rerun with valid size
-	return GenerateKey(key + "_nerocp")
+	return GenerateKey(key + "_lheinrich.de/gotools")
 }
 
 // Encrypt text with key
-func Encrypt(text string, key []byte) string {
+func Encrypt(text string, key []byte) (string, error) {
+	var err error
+
 	// text as byte slice
 	plain := []byte(text)
 
 	// initialize and check for error
-	block, err := aes.NewCipher(key)
-	shorts.Check(err)
+	var block cipher.Block
+	block, err = aes.NewCipher(key)
+	if err != nil {
+		return "", err
+	}
 
 	// generate cipher text
 	cipherText := make([]byte, aes.BlockSize+len(plain))
@@ -64,25 +67,35 @@ func Encrypt(text string, key []byte) string {
 
 	// read cipher text and check for error
 	_, err = io.ReadFull(rand.Reader, iv)
-	shorts.Check(err)
+	if err != nil {
+		return "", err
+	}
 
 	// encrypt
 	stream := cipher.NewCFBEncrypter(block, iv)
 	stream.XORKeyStream(cipherText[aes.BlockSize:], plain)
 
 	// return encoded as string
-	return base64.URLEncoding.EncodeToString(cipherText)
+	return base64.URLEncoding.EncodeToString(cipherText), err
 }
 
 // Decrypt text with key
-func Decrypt(text string, key []byte) string {
+func Decrypt(text string, key []byte) (string, error) {
+	var err error
+
 	// decode to byte slice
-	cipherText, err := base64.URLEncoding.DecodeString(text)
-	shorts.Check(err)
+	var cipherText []byte
+	cipherText, err = base64.URLEncoding.DecodeString(text)
+	if err != nil {
+		return "", err
+	}
 
 	// initialize and check for error
-	block, err := aes.NewCipher(key)
-	shorts.Check(err)
+	var block cipher.Block
+	block, err = aes.NewCipher(key)
+	if err != nil {
+		return "", err
+	}
 
 	// generate cipher text
 	iv := cipherText[:aes.BlockSize]
@@ -93,5 +106,5 @@ func Decrypt(text string, key []byte) string {
 	stream.XORKeyStream(cipherText, cipherText)
 
 	// return as string
-	return string(cipherText)
+	return string(cipherText), nil
 }

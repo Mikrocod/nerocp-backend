@@ -1,27 +1,30 @@
 package handlers
 
 import (
+	"errors"
 	"net"
 
-	"lheinrich.de/nerocp-backend/internal/pkg/db"
-	"lheinrich.de/nerocp-backend/pkg/handler"
-	"lheinrich.de/nerocp-backend/pkg/shorts"
+	"github.com/lheinrichde/gotools/pkg/db"
+	"github.com/lheinrichde/gotools/pkg/handler"
 )
 
 // GetRoles return permissions
 type GetRoles int
 
 // Handle connection
-func (h GetRoles) Handle(conn net.Conn, request map[string]interface{}, username string) {
+func (h GetRoles) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+	var err error
+
 	// check has permission
-	if !handler.HasPermission(username, "page.roleList") {
-		handler.Error(conn, 403)
-		return
+	if !HasPermission(username, "page.roleList") {
+		return errors.New("403")
 	}
 
 	// query database for roles
 	rows, err := db.DB.Query(`SELECT roleID, roleName FROM roles;`)
-	shorts.Check(err)
+	if err != nil {
+		return err
+	}
 
 	// loop through rows
 	roles := []map[string]interface{}{}
@@ -41,4 +44,6 @@ func (h GetRoles) Handle(conn net.Conn, request map[string]interface{}, username
 	// set users and respond
 	response := map[string]interface{}{"roles": roles}
 	handler.Write(conn, response)
+
+	return nil
 }

@@ -4,9 +4,6 @@ import (
 	"encoding/json"
 	"net"
 	"strings"
-
-	"lheinrich.de/nerocp-backend/internal/pkg/db"
-	"lheinrich.de/nerocp-backend/pkg/shorts"
 )
 
 var (
@@ -16,7 +13,7 @@ var (
 
 // Handler interface for socket communication
 type Handler interface {
-	Handle(conn net.Conn, request map[string]interface{}, username string)
+	Handle(conn net.Conn, request map[string]interface{}, username string) error
 }
 
 // Get handler by name
@@ -26,6 +23,8 @@ func Get(name string) Handler {
 		// return default if not exists
 		h = handlersMap["default"]
 	}
+
+	// return handler
 	return h
 }
 
@@ -34,37 +33,52 @@ func Add(name string, h Handler) {
 	handlersMap[strings.ToLower(name)] = h
 }
 
+// Delete handler with name
+func Delete(name string, h Handler) {
+	delete(handlersMap, strings.ToLower(name))
+}
+
 // Read and unmarshal to map[string]interface{}
-func Read(conn net.Conn) map[string]interface{} {
+func Read(conn net.Conn) (map[string]interface{}, error) {
 	var err error
 
 	// read from connection
 	requestBytes := make([]byte, 1024)
 	var readLength int
 	readLength, err = conn.Read(requestBytes)
-	shorts.Check(err)
+	if err != nil {
+		return nil, err
+	}
 
 	// unmarshal json
 	var request map[string]interface{}
 	err = json.Unmarshal(requestBytes[:readLength], &request)
-	shorts.Check(err)
+	if err != nil {
+		return nil, err
+	}
 
 	// return map
-	return request
+	return request, nil
 }
 
 // Write and marshal from map[string]interface{}
-func Write(conn net.Conn, response map[string]interface{}) {
+func Write(conn net.Conn, response map[string]interface{}) error {
 	var err error
 
 	// marshal to byte slice
 	var responseBytes []byte
 	responseBytes, err = json.Marshal(&response)
-	shorts.Check(err)
+	if err != nil {
+		return err
+	}
 
 	// write to connection
 	_, err = conn.Write(responseBytes)
-	shorts.Check(err)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // GetString get string or empty string
@@ -120,29 +134,11 @@ func GetBool(request map[string]interface{}, name string) bool {
 	return false
 }
 
-// HasPermission check user has permission
-func HasPermission(username, permission string) bool {
-	// query
-	err := db.DB.QueryRow(`SELECT permissions.permission FROM permissions
-	INNER JOIN users ON users.role = permissions.role
-	WHERE users.username = $1;`, username).Scan(&permission)
-	shorts.Check(err)
-
-	// check if has permission
-	if err == nil {
-		// return true
-		return true
-	}
-
-	// return false
-	return false
-}
-
 // Error respond with error code
-func Error(conn net.Conn, code int) {
+func Error(conn net.Conn, err error) {
 	// define response and set error code
 	response := map[string]interface{}{}
-	response["error"] = code
+	response["error"] = err.Error()
 
 	// Write
 	Write(conn, response)

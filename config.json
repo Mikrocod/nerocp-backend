@@ -12,6 +12,7 @@
     },
     "app": {
         "logType": "file",
-        "logFile": "log.txt"
+        "logFile": "log.txt",
+        "modules": "modules"
     }
 }

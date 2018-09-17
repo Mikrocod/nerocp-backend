@@ -2,28 +2,28 @@ package handlers
 
 import (
 	"database/sql"
+	"errors"
 	"net"
 
-	"lheinrich.de/nerocp-backend/internal/pkg/db"
-	"lheinrich.de/nerocp-backend/pkg/handler"
-	"lheinrich.de/nerocp-backend/pkg/shorts"
+	"github.com/lheinrichde/gotools/pkg/db"
+	"github.com/lheinrichde/gotools/pkg/handler"
 )
 
 // GetUsers return permissions
 type GetUsers int
 
 // Handle connection
-func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username string) {
+func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+	var err error
+
 	// check has permission
-	if !handler.HasPermission(username, "page.userList") {
-		handler.Error(conn, 403)
-		return
+	if !HasPermission(username, "page.userList") {
+		return errors.New("403")
 	}
 
 	// define variables
 	role := handler.GetInt(request, "roleID")
 	var rows *sql.Rows
-	var err error
 
 	// query database for users and check for error
 	if role == 0 {
@@ -33,7 +33,9 @@ func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username
 		// query for users with specific role
 		rows, err = db.DB.Query(`SELECT username, role FROM users WHERE role = $1;`, role)
 	}
-	shorts.Check(err)
+	if err != nil {
+		return err
+	}
 
 	// loop through rows
 	users := []map[string]interface{}{}
@@ -53,4 +55,6 @@ func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username
 	// set users and respond
 	response := map[string]interface{}{"users": users}
 	handler.Write(conn, response)
+
+	return nil
 }

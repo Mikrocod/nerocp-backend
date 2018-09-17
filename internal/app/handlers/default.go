@@ -1,18 +1,33 @@
 package handlers
 
 import (
+	"errors"
 	"net"
 
-	"lheinrich.de/nerocp-backend/pkg/handler"
+	"github.com/lheinrichde/gotools/pkg/db"
 )
 
 // Default handle all requests
 type Default int
 
 // Handle connection
-func (h Default) Handle(conn net.Conn, request map[string]interface{}, username string) {
+func (h Default) Handle(conn net.Conn, request map[string]interface{}, username string) error {
 	// respond with error 404
-	response := map[string]interface{}{}
-	response["error"] = 404
-	handler.Write(conn, response)
+	return errors.New("404")
+}
+
+// HasPermission check user has permission
+func HasPermission(username, permission string) bool {
+	// query
+	err := db.DB.QueryRow(`SELECT permissions.permission FROM permissions
+	INNER JOIN users ON users.role = permissions.role
+	WHERE users.username = $1;`, username).Scan(&permission)
+
+	// check if has permission
+	if err == nil {
+		// return true
+		return true
+	}
+
+	return false
 }
