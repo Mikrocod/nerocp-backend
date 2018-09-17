@@ -28,27 +28,27 @@ func main() {
 	// config
 	err = config.LoadConfig("config.json")
 	if err != nil {
-		panic(err.Error())
+		panic(err)
 	}
 
 	// log
 	if config.Get("app", "logType") == "file" {
 		err = setup.LogToFile(config.Get("app", "logFile"))
 		if err != nil {
-			panic(err.Error())
+			panic(err)
 		}
 	}
 
 	// database
 	err = setupDB()
 	if err != nil {
-		panic(err.Error())
+		panic(err)
 	}
 
 	// server
 	err = startServer()
 	if err != nil {
-		panic(err.Error())
+		panic(err)
 	}
 	registerHandlers()
 
@@ -58,7 +58,7 @@ func main() {
 	// modules
 	err = module.LoadModules(config.Get("app", "modules"))
 	if err != nil {
-		panic(err.Error())
+		panic(err)
 	}
 
 	// keep open
@@ -166,7 +166,9 @@ func listen(listener net.Listener) {
 		// accept connection
 		var conn net.Conn
 		conn, err = listener.Accept()
-		log.Println(err)
+		if err != nil {
+			log.Println(err)
+		}
 
 		// handle connection
 		go handleConnSafe(conn)
@@ -179,7 +181,7 @@ func handleConnSafe(conn net.Conn) {
 
 	err = handleConn(conn)
 	if err != nil {
-		handler.Write(conn, map[string]interface{}{"error": err.Error()})
+		handler.Write(conn, map[string]interface{}{"error": err})
 	}
 	conn.Close()
 }

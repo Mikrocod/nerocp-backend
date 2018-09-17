@@ -3,7 +3,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:5dc5f5a2431043a56c7570019cf0a176a4369ef4c2377ea5b435fc0eb771bce8"
+  digest = "1:b111727f0c050d11728f4b8658499d1933c97ba037c1a7b486eb5b7af55930d4"
   name = "github.com/lheinrichde/gotools"
   packages = [
     "pkg/config",
@@ -14,7 +14,7 @@
     "pkg/setup",
   ]
   pruneopts = "UT"
-  revision = "364bf5735b41b92208e48c572705ba214afa3430"
+  revision = "cad5d5785b35a57450ba3b3ed3078d3949b5ed05"
 
 [[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"

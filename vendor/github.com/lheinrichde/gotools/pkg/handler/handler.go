@@ -138,7 +138,7 @@ func GetBool(request map[string]interface{}, name string) bool {
 func Error(conn net.Conn, err error) {
 	// define response and set error code
 	response := map[string]interface{}{}
-	response["error"] = err.Error()
+	response["error"] = err
 
 	// Write
 	Write(conn, response)

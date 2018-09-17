@@ -39,7 +39,10 @@ func LoadModules(dir string) error {
 	// loop through files and load modules
 	for _, file := range files {
 		if !strings.HasPrefix(file.Name(), ".") {
-			LoadModule(dir + "/" + file.Name())
+			err = LoadModule(dir + "/" + file.Name())
+			if err != nil {
+				return err
+			}
 		}
 	}
 
