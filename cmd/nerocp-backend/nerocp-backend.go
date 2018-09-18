@@ -72,6 +72,8 @@ func registerHandlers() {
 	handler.Add("getrolename", handlers.GetRoleName(0))
 	handler.Add("getusers", handlers.GetUsers(0))
 	handler.Add("getroles", handlers.GetRoles(0))
+	handler.Add("createuser", handlers.CreateUser(0))
+	handler.Add("deleteuser", handlers.DeleteUser(0))
 }
 
 // connect to and setup database
@@ -218,12 +220,11 @@ func handleConn(conn net.Conn) error {
 		// respond with role id
 		response["roleID"] = *role
 		handler.Write(conn, response)
+		return nil
 	}
 
 	// handle with handler
-	handler.Get(typ).Handle(conn, request, username)
-
-	return nil
+	return handler.Get(typ).Handle(conn, request, username)
 }
 
 // verify login

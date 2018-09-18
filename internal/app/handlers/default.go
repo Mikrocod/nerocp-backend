@@ -18,10 +18,13 @@ func (h Default) Handle(conn net.Conn, request map[string]interface{}, username 
 
 // HasPermission check user has permission
 func HasPermission(username, permission string) bool {
+	var err error
+	var trash string
+
 	// query
-	err := db.DB.QueryRow(`SELECT permissions.permission FROM permissions
+	err = db.DB.QueryRow(`SELECT permissions.permission FROM permissions
 	INNER JOIN users ON users.role = permissions.role
-	WHERE users.username = $1;`, username).Scan(&permission)
+	WHERE users.username = $1 AND permissions.permission = $2;`, username, permission).Scan(&trash)
 
 	// check if has permission
 	if err == nil {
