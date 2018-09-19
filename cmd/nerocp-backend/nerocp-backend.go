@@ -9,14 +9,14 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/lheinrichde/nerocp-backend/internal/app/handlers"
+	"lheinrich.de/lheinrich/nerocp-backend/internal/app/handlers"
 
-	"github.com/lheinrichde/gotools/pkg/config"
-	"github.com/lheinrichde/gotools/pkg/crypter"
-	"github.com/lheinrichde/gotools/pkg/db"
-	"github.com/lheinrichde/gotools/pkg/handler"
-	"github.com/lheinrichde/gotools/pkg/module"
-	"github.com/lheinrichde/gotools/pkg/setup"
+	"lheinrich.de/lheinrich/gotools/pkg/config"
+	"lheinrich.de/lheinrich/gotools/pkg/crypter"
+	"lheinrich.de/lheinrich/gotools/pkg/db"
+	"lheinrich.de/lheinrich/gotools/pkg/handler"
+	"lheinrich.de/lheinrich/gotools/pkg/module"
+	"lheinrich.de/lheinrich/gotools/pkg/setup"
 
 	_ "github.com/lib/pq"
 )

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net"
 
-	"github.com/lheinrichde/gotools/pkg/db"
+	"lheinrich.de/lheinrich/gotools/pkg/db"
 )
 
 // Default handle all requests

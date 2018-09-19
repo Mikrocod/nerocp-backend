@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net"
 
-	"github.com/lheinrichde/gotools/pkg/handler"
+	"lheinrich.de/lheinrich/gotools/pkg/handler"
 
-	"github.com/lheinrichde/gotools/pkg/db"
+	"lheinrich.de/lheinrich/gotools/pkg/db"
 )
 
 // DeleteUser delete user

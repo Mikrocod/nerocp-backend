@@ -2,21 +2,6 @@
 
 
 [[projects]]
-  branch = "master"
-  digest = "1:b111727f0c050d11728f4b8658499d1933c97ba037c1a7b486eb5b7af55930d4"
-  name = "github.com/lheinrichde/gotools"
-  packages = [
-    "pkg/config",
-    "pkg/crypter",
-    "pkg/db",
-    "pkg/handler",
-    "pkg/module",
-    "pkg/setup",
-  ]
-  pruneopts = "UT"
-  revision = "cad5d5785b35a57450ba3b3ed3078d3949b5ed05"
-
-[[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
   name = "github.com/lib/pq"
   packages = [
@@ -39,18 +24,33 @@
   pruneopts = "UT"
   revision = "0e37d006457bf46f9e6692014ba72ef82c33022c"
 
+[[projects]]
+  branch = "master"
+  digest = "1:b111727f0c050d11728f4b8658499d1933c97ba037c1a7b486eb5b7af55930d4"
+  name = "lheinrich.de/lheinrich/gotools"
+  packages = [
+    "pkg/config",
+    "pkg/crypter",
+    "pkg/db",
+    "pkg/handler",
+    "pkg/module",
+    "pkg/setup",
+  ]
+  pruneopts = "UT"
+  revision = "cad5d5785b35a57450ba3b3ed3078d3949b5ed05"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/lheinrichde/gotools/pkg/config",
-    "github.com/lheinrichde/gotools/pkg/crypter",
-    "github.com/lheinrichde/gotools/pkg/db",
-    "github.com/lheinrichde/gotools/pkg/handler",
-    "github.com/lheinrichde/gotools/pkg/module",
-    "github.com/lheinrichde/gotools/pkg/setup",
     "github.com/lib/pq",
     "golang.org/x/crypto/bcrypt",
+    "lheinrich.de/lheinrich/gotools/pkg/config",
+    "lheinrich.de/lheinrich/gotools/pkg/crypter",
+    "lheinrich.de/lheinrich/gotools/pkg/db",
+    "lheinrich.de/lheinrich/gotools/pkg/handler",
+    "lheinrich.de/lheinrich/gotools/pkg/module",
+    "lheinrich.de/lheinrich/gotools/pkg/setup",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net"
 
-	"github.com/lheinrichde/gotools/pkg/db"
-	"github.com/lheinrichde/gotools/pkg/handler"
 	"golang.org/x/crypto/bcrypt"
+	"lheinrich.de/lheinrich/gotools/pkg/db"
+	"lheinrich.de/lheinrich/gotools/pkg/handler"
 )
 
 // CreateUser create user

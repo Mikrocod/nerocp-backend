@@ -5,8 +5,8 @@ import (
 	"errors"
 	"net"
 
-	"github.com/lheinrichde/gotools/pkg/db"
-	"github.com/lheinrichde/gotools/pkg/handler"
+	"lheinrich.de/lheinrich/gotools/pkg/db"
+	"lheinrich.de/lheinrich/gotools/pkg/handler"
 )
 
 // GetPerms return permissions
