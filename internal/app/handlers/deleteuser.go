@@ -21,23 +21,20 @@ func (h DeleteUser) Handle(conn net.Conn, request map[string]interface{}, userna
 
 	// check if username to delete is provided
 	if deleteUsername == "" {
-		// delete from database
-		_, err = db.DB.Exec(`DELETE FROM users WHERE username = $1;`, username)
+		// no username to delete provided
+		return errors.New("400")
+	}
+
+	// check if user has permission
+	if HasPermission(username, "page.userList.delete") || deleteUsername == username {
+		// delete from database by username
+		_, err = db.DB.Exec(`DELETE FROM users WHERE username = $1;`, deleteUsername)
 		if err != nil {
 			return err
 		}
 	} else {
-		// check if user has permission
-		if HasPermission(username, "page.userList.delete") {
-			// delete from database by username
-			_, err = db.DB.Exec(`DELETE FROM users WHERE username = $1;`, deleteUsername)
-			if err != nil {
-				return err
-			}
-		} else {
-			// no permission
-			return errors.New("403")
-		}
+		// no permission
+		return errors.New("403")
 	}
 
 	return nil
