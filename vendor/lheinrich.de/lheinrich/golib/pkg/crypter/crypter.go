@@ -44,7 +44,7 @@ func GenerateKey(key string) []byte {
 	}
 
 	// return key or rerun with valid size
-	return GenerateKey(key + "_lheinrich.de/gotools")
+	return GenerateKey(key + "_lheinrich.de")
 }
 
 // Encrypt text with key

@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"bytes"
 	"encoding/json"
+	"io"
 	"net"
 	"strings"
 )
@@ -43,16 +45,16 @@ func Read(conn net.Conn) (map[string]interface{}, error) {
 	var err error
 
 	// read from connection
-	requestBytes := make([]byte, 1024)
-	var readLength int
-	readLength, err = conn.Read(requestBytes)
+	var buffer bytes.Buffer
+	_, err = io.Copy(&buffer, conn)
 	if err != nil {
 		return nil, err
 	}
 
 	// unmarshal json
+	requestBytes := buffer.Bytes()
 	var request map[string]interface{}
-	err = json.Unmarshal(requestBytes[:readLength], &request)
+	err = json.Unmarshal(requestBytes, &request)
 	if err != nil {
 		return nil, err
 	}

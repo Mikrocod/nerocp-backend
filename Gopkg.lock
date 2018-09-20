@@ -26,7 +26,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:b111727f0c050d11728f4b8658499d1933c97ba037c1a7b486eb5b7af55930d4"
+  digest = "1:c5920187d5e39ba58b19095dc072e0058451ee65183bf531695055fe53bc08d2"
   name = "lheinrich.de/lheinrich/golib"
   packages = [
     "pkg/config",
@@ -37,13 +37,12 @@
     "pkg/setup",
   ]
   pruneopts = "UT"
-  revision = "a3d50942a5b4280dc1e41d05e6e31a453a2f7e87"
+  revision = "bc580daa462eedccc151e3311757eff2a6964135"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/lib/pq",
     "golang.org/x/crypto/bcrypt",
     "lheinrich.de/lheinrich/golib/pkg/config",
     "lheinrich.de/lheinrich/golib/pkg/crypter",
