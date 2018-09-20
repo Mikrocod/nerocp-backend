@@ -11,14 +11,12 @@ import (
 
 	"lheinrich.de/lheinrich/nerocp-backend/internal/app/handlers"
 
-	"lheinrich.de/lheinrich/gotools/pkg/config"
-	"lheinrich.de/lheinrich/gotools/pkg/crypter"
-	"lheinrich.de/lheinrich/gotools/pkg/db"
-	"lheinrich.de/lheinrich/gotools/pkg/handler"
-	"lheinrich.de/lheinrich/gotools/pkg/module"
-	"lheinrich.de/lheinrich/gotools/pkg/setup"
-
-	_ "github.com/lib/pq"
+	"lheinrich.de/lheinrich/golib/pkg/config"
+	"lheinrich.de/lheinrich/golib/pkg/crypter"
+	"lheinrich.de/lheinrich/golib/pkg/db"
+	"lheinrich.de/lheinrich/golib/pkg/handler"
+	"lheinrich.de/lheinrich/golib/pkg/module"
+	"lheinrich.de/lheinrich/golib/pkg/setup"
 )
 
 // main function

@@ -5,8 +5,8 @@ import (
 	"net"
 
 	"golang.org/x/crypto/bcrypt"
-	"lheinrich.de/lheinrich/gotools/pkg/db"
-	"lheinrich.de/lheinrich/gotools/pkg/handler"
+	"lheinrich.de/lheinrich/golib/pkg/db"
+	"lheinrich.de/lheinrich/golib/pkg/handler"
 )
 
 // CreateUser create user

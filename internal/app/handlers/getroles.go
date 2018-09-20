@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net"
 
-	"lheinrich.de/lheinrich/gotools/pkg/db"
-	"lheinrich.de/lheinrich/gotools/pkg/handler"
+	"lheinrich.de/lheinrich/golib/pkg/db"
+	"lheinrich.de/lheinrich/golib/pkg/handler"
 )
 
 // GetRoles return permissions

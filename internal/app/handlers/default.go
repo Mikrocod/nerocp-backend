@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net"
 
-	"lheinrich.de/lheinrich/gotools/pkg/db"
+	"lheinrich.de/lheinrich/golib/pkg/db"
 )
 
 // Default handle all requests

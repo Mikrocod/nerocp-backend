@@ -3,8 +3,8 @@ package handlers
 import (
 	"net"
 
-	"lheinrich.de/lheinrich/gotools/pkg/db"
-	"lheinrich.de/lheinrich/gotools/pkg/handler"
+	"lheinrich.de/lheinrich/golib/pkg/db"
+	"lheinrich.de/lheinrich/golib/pkg/handler"
 )
 
 // GetRoleName return role name

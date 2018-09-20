@@ -35,7 +35,7 @@
 
 [[constraint]]
   branch = "master"
-  name = "lheinrich.de/lheinrich/gotools"
+  name = "lheinrich.de/lheinrich/golib"
 
 [prune]
   go-tests = true
