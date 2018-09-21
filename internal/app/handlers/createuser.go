@@ -45,5 +45,11 @@ func (h CreateUser) Handle(conn net.Conn, request map[string]interface{}, userna
 		return err
 	}
 
+	// respond with success
+	err = handler.Write(conn, map[string]interface{}{"success": "true"})
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
