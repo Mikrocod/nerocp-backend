@@ -24,6 +24,7 @@
 #   go-tests = true
 #   unused-packages = true
 
+ignored = ["lheinrich.de/lheinrich/golib/*"]
 
 [[constraint]]
   name = "github.com/lib/pq"
@@ -32,10 +33,6 @@
 [[constraint]]
   branch = "master"
   name = "golang.org/x/crypto"
-
-[[constraint]]
-  branch = "master"
-  name = "lheinrich.de/lheinrich/golib"
 
 [prune]
   go-tests = true
