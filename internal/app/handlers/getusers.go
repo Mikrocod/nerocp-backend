@@ -28,10 +28,15 @@ func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username
 	// query database for users and check for error
 	if role == 0 {
 		// query for all users
-		rows, err = db.DB.Query(`SELECT username, role FROM users;`)
+		rows, err = db.DB.Query(`SELECT users.username, users.role, roles.roleName
+		FROM users INNER JOIN roles
+		ON roles.roleID = users.role;`)
 	} else {
 		// query for users with specific role
-		rows, err = db.DB.Query(`SELECT username, role FROM users WHERE role = $1;`, role)
+		rows, err = db.DB.Query(`SELECT users.username, users.role, roles.roleName
+		FROM users INNER JOIN roles
+		ON roles.roleID = users.role
+		WHERE users.role = $1;`, role)
 	}
 	if err != nil {
 		return err
@@ -42,13 +47,15 @@ func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username
 	for rows.Next() {
 		// define variables and scan
 		var user string
-		var role int
-		rows.Scan(&user, &role)
+		var roleID int
+		var roleName string
+		rows.Scan(&user, &roleID, &roleName)
 
 		// add user to slice
 		userItem := map[string]interface{}{}
 		userItem["username"] = user
-		userItem["roleID"] = role
+		userItem["roleID"] = roleID
+		userItem["roleName"] = roleName
 		users = append(users, userItem)
 	}
 

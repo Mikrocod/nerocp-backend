@@ -72,6 +72,8 @@ func registerHandlers() {
 	handler.Add("getroles", handlers.GetRoles(0))
 	handler.Add("createuser", handlers.CreateUser(0))
 	handler.Add("deleteuser", handlers.DeleteUser(0))
+	handler.Add("createrole", handlers.CreateRole(0))
+	handler.Add("deleterole", handlers.DeleteRole(0))
 }
 
 // connect to and setup database

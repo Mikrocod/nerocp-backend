@@ -38,7 +38,7 @@ func (h DeleteUser) Handle(conn net.Conn, request map[string]interface{}, userna
 	}
 
 	// respond with success
-	err = handler.Write(conn, map[string]interface{}{"success": "true"})
+	err = handler.Write(conn, map[string]interface{}{"success": true})
 	if err != nil {
 		return err
 	}
