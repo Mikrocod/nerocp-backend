@@ -9,7 +9,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"lheinrich.de/lheinrich/nerocp-backend/internal/app/handlers"
+	"lheinrich.de/lheinrich/evortexcp-backend/internal/app/handlers"
 
 	"lheinrich.de/lheinrich/golib/pkg/config"
 	"lheinrich.de/lheinrich/golib/pkg/crypter"
@@ -51,7 +51,7 @@ func main() {
 	registerHandlers()
 
 	// started
-	fmt.Println("nerocp-backend (c) 2018 Lennart Heinrich")
+	fmt.Println("evortexcp-backend (c) 2018 Lennart Heinrich")
 
 	// modules
 	err = module.LoadModules(config.Get("app", "modules"))
@@ -121,7 +121,7 @@ func setupDB() error {
 	err = db.DB.QueryRow("SELECT username FROM users;").Scan(&trash)
 	if err == sql.ErrNoRows {
 		// generate bcrypt hash
-		passwordHashSHA3 := crypter.Hash("nerocp_" + crypter.Hash("admin"))
+		passwordHashSHA3 := crypter.Hash("evortexcp_" + crypter.Hash("admin"))
 		var passwordHash []byte
 		passwordHash, err = bcrypt.GenerateFromPassword([]byte(passwordHashSHA3), bcrypt.DefaultCost+1)
 		if err != nil {
