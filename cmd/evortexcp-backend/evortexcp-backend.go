@@ -108,7 +108,8 @@ func setupDB() error {
 	err = db.DB.QueryRow("SELECT roleID FROM roles;").Scan(&trash)
 	if err == sql.ErrNoRows {
 		// create default role
-		_, err = db.DB.Exec("INSERT INTO roles (roleID, roleName) VALUES (1, 'admin')")
+		_, err = db.DB.Exec(`INSERT INTO roles (roleID, roleName) VALUES (1, 'admin');
+		INSERT INTO permissions (role, permission) VALUES (1, '*');`)
 		if err != nil {
 			return err
 		}
@@ -129,7 +130,7 @@ func setupDB() error {
 		}
 
 		// create default user
-		_, err = db.DB.Exec("INSERT INTO users (username, passwordHash, role) VALUES ('admin', $1, 1)", string(passwordHash))
+		_, err = db.DB.Exec("INSERT INTO users (username, passwordHash, role) VALUES ('admin', $1, 1);", string(passwordHash))
 		if err != nil {
 			return err
 		}
