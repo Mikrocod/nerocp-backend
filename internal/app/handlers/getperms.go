@@ -28,6 +28,7 @@ func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}, username
 		if err != nil {
 			return err
 		}
+		defer rows.Close()
 	} else {
 		// check if user has permission
 		if HasPermission(username, "page.roleList") {
@@ -37,6 +38,7 @@ func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}, username
 			if err != nil {
 				return err
 			}
+			defer rows.Close()
 		} else {
 			// no permission
 			return errors.New("403")

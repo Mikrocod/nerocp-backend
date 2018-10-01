@@ -31,12 +31,14 @@ func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username
 		rows, err = db.DB.Query(`SELECT users.username, users.role, roles.roleName
 		FROM users INNER JOIN roles
 		ON roles.roleID = users.role;`)
+		defer rows.Close()
 	} else {
 		// query for users with specific role
 		rows, err = db.DB.Query(`SELECT users.username, users.role, roles.roleName
 		FROM users INNER JOIN roles
 		ON roles.roleID = users.role
 		WHERE users.role = $1;`, role)
+		defer rows.Close()
 	}
 	if err != nil {
 		return err

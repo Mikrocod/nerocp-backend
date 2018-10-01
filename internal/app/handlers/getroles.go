@@ -25,6 +25,7 @@ func (h GetRoles) Handle(conn net.Conn, request map[string]interface{}, username
 	if err != nil {
 		return err
 	}
+	defer rows.Close()
 
 	// loop through rows
 	roles := []map[string]interface{}{}
