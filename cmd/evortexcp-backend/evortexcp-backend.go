@@ -9,14 +9,14 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"lheinrich.de/lheinrich/evortexcp-backend/internal/app/handlers"
+	"github.com/lheinrichde/evortexcp-backend/internal/app/handlers"
 
-	"lheinrich.de/lheinrich/golib/pkg/config"
-	"lheinrich.de/lheinrich/golib/pkg/crypter"
-	"lheinrich.de/lheinrich/golib/pkg/db"
-	"lheinrich.de/lheinrich/golib/pkg/handler"
-	"lheinrich.de/lheinrich/golib/pkg/module"
-	"lheinrich.de/lheinrich/golib/pkg/setup"
+	"github.com/lheinrichde/golib/pkg/config"
+	"github.com/lheinrichde/golib/pkg/crypter"
+	"github.com/lheinrichde/golib/pkg/db"
+	"github.com/lheinrichde/golib/pkg/handler"
+	"github.com/lheinrichde/golib/pkg/module"
+	"github.com/lheinrichde/golib/pkg/setup"
 )
 
 // main function

@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net"
 
-	"lheinrich.de/lheinrich/golib/pkg/handler"
+	"github.com/lheinrichde/golib/pkg/handler"
 
-	"lheinrich.de/lheinrich/golib/pkg/db"
+	"github.com/lheinrichde/golib/pkg/db"
 )
 
 // DeleteRole delete role

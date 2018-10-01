@@ -24,7 +24,7 @@
 #   go-tests = true
 #   unused-packages = true
 
-ignored = ["lheinrich.de/lheinrich/golib/*"]
+ignored = ["github.com/lheinrichde/golib/*"]
 
 [[constraint]]
   name = "github.com/lib/pq"
