@@ -9,11 +9,8 @@ import (
 	"github.com/lheinrichde/golib/pkg/db"
 )
 
-// DeleteRole delete role
-type DeleteRole int
-
-// Handle connection
-func (h DeleteRole) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// DeleteRole function
+func DeleteRole(conn net.Conn, request map[string]interface{}, username string) error {
 	var err error
 
 	// get role id to delete

@@ -9,11 +9,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// CreateUser create user
-type CreateUser int
-
-// Handle connection
-func (h CreateUser) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// CreateUser functio
+func CreateUser(conn net.Conn, request map[string]interface{}, username string) error {
 	var err error
 
 	// check if user has permission to create users

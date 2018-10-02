@@ -7,11 +7,8 @@ import (
 	"github.com/lheinrichde/golib/pkg/db"
 )
 
-// Default handle all requests
-type Default int
-
-// Handle connection
-func (h Default) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// Default function
+func Default(conn net.Conn, request map[string]interface{}, username string) error {
 	// respond with error 404
 	return errors.New("404")
 }

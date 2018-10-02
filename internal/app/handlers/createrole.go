@@ -8,11 +8,8 @@ import (
 	"github.com/lheinrichde/golib/pkg/handler"
 )
 
-// CreateRole create role
-type CreateRole int
-
-// Handle connection
-func (h CreateRole) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// CreateRole function
+func CreateRole(conn net.Conn, request map[string]interface{}, username string) error {
 	var err error
 
 	// check if user has permission to create roles

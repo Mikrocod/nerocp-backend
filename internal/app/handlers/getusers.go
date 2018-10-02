@@ -9,11 +9,8 @@ import (
 	"github.com/lheinrichde/golib/pkg/handler"
 )
 
-// GetUsers return permissions
-type GetUsers int
-
-// Handle connection
-func (h GetUsers) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// GetUsers function
+func GetUsers(conn net.Conn, request map[string]interface{}, username string) error {
 	var err error
 
 	// check has permission

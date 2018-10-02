@@ -9,11 +9,8 @@ import (
 	"github.com/lheinrichde/golib/pkg/handler"
 )
 
-// GetPerms return permissions
-type GetPerms int
-
-// Handle connection
-func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// GetPerms function
+func GetPerms(conn net.Conn, request map[string]interface{}, username string) error {
 	// define variables
 	var rows *sql.Rows
 	var err error

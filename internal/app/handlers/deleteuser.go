@@ -9,11 +9,8 @@ import (
 	"github.com/lheinrichde/golib/pkg/db"
 )
 
-// DeleteUser delete user
-type DeleteUser int
-
-// Handle connection
-func (h DeleteUser) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// DeleteUser function
+func DeleteUser(conn net.Conn, request map[string]interface{}, username string) error {
 	var err error
 
 	// get username to delete

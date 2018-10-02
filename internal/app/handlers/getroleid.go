@@ -7,11 +7,8 @@ import (
 	"github.com/lheinrichde/golib/pkg/handler"
 )
 
-// GetRoleID return role id
-type GetRoleID int
-
-// Handle connection
-func (h GetRoleID) Handle(conn net.Conn, request map[string]interface{}, username string) error {
+// GetRoleID function
+func GetRoleID(conn net.Conn, request map[string]interface{}, username string) error {
 	var err error
 
 	// query database for role id

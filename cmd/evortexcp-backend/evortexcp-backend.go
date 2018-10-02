@@ -65,15 +65,16 @@ func main() {
 
 // register known handlers
 func registerHandlers() {
-	handler.Add("getperms", handlers.GetPerms(0))
-	handler.Add("getroleid", handlers.GetRoleID(0))
-	handler.Add("getrolename", handlers.GetRoleName(0))
-	handler.Add("getusers", handlers.GetUsers(0))
-	handler.Add("getroles", handlers.GetRoles(0))
-	handler.Add("createuser", handlers.CreateUser(0))
-	handler.Add("deleteuser", handlers.DeleteUser(0))
-	handler.Add("createrole", handlers.CreateRole(0))
-	handler.Add("deleterole", handlers.DeleteRole(0))
+	handler.Add("getperms", handlers.GetPerms)
+	handler.Add("getroleid", handlers.GetRoleID)
+	handler.Add("getrolename", handlers.GetRoleName)
+	handler.Add("getusers", handlers.GetUsers)
+	handler.Add("getroles", handlers.GetRoles)
+	handler.Add("createuser", handlers.CreateUser)
+	handler.Add("deleteuser", handlers.DeleteUser)
+	handler.Add("createrole", handlers.CreateRole)
+	handler.Add("deleterole", handlers.DeleteRole)
+	handler.Add("checkmodule", handlers.CheckModule)
 }
 
 // connect to and setup database
@@ -164,7 +165,7 @@ func listen(listener net.Listener) {
 	var err error
 
 	// add default handler
-	handler.Add("default", handlers.Default(0))
+	handler.Add("default", handlers.Default)
 
 	for {
 		// accept connection
@@ -225,7 +226,7 @@ func handleConn(conn net.Conn) error {
 	}
 
 	// handle with handler
-	return handler.Get(typ).Handle(conn, request, username)
+	return handler.Get(typ)(conn, request, username)
 }
 
 // verify login
