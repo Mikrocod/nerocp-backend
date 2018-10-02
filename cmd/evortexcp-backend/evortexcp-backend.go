@@ -75,6 +75,7 @@ func registerHandlers() {
 	handler.Add("createrole", handlers.CreateRole)
 	handler.Add("deleterole", handlers.DeleteRole)
 	handler.Add("checkmodule", handlers.CheckModule)
+	handler.Add("deinstallmodule", handlers.DeinstallModule)
 }
 
 // connect to and setup database
