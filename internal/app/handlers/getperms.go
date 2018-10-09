@@ -2,18 +2,15 @@ package handlers
 
 import (
 	"database/sql"
+	"errors"
 	"net"
 
-	"lheinrich.de/nerocp-backend/internal/pkg/db"
-	"lheinrich.de/nerocp-backend/pkg/handler"
-	"lheinrich.de/nerocp-backend/pkg/shorts"
+	"github.com/lheinrichde/golib/pkg/db"
+	"github.com/lheinrichde/golib/pkg/handler"
 )
 
-// GetPerms return permissions
-type GetPerms int
-
-// Handle connection
-func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}, username string) {
+// GetPerms function
+func GetPerms(conn net.Conn, request map[string]interface{}, username string) error {
 	// define variables
 	var rows *sql.Rows
 	var err error
@@ -25,19 +22,24 @@ func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}, username
 		rows, err = db.DB.Query(`SELECT permissions.permission FROM permissions
 		INNER JOIN users ON users.role = permissions.role
 		WHERE users.username = $1;`, username)
-		shorts.Check(err)
+		if err != nil {
+			return err
+		}
+		defer rows.Close()
 	} else {
 		// check if user has permission
-		if handler.HasPermission(username, "page.roleList") {
+		if HasPermission(username, "page.roleList") {
 			// query database for permissions of provided role
 			rows, err = db.DB.Query(`SELECT permission FROM permissions
 			WHERE role = $1;`, roleID)
-			shorts.Check(err)
+			if err != nil {
+				return err
+			}
+			defer rows.Close()
+		} else {
+			// no permission
+			return errors.New("403")
 		}
-
-		// no permission
-		handler.Error(conn, 403)
-		return
 	}
 
 	// loop through rows
@@ -52,4 +54,6 @@ func (h GetPerms) Handle(conn net.Conn, request map[string]interface{}, username
 	// set permissions and respond
 	response := map[string]interface{}{"permissions": permissions}
 	handler.Write(conn, response)
+
+	return nil
 }

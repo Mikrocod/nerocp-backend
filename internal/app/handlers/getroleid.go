@@ -3,22 +3,26 @@ package handlers
 import (
 	"net"
 
-	"lheinrich.de/nerocp-backend/internal/pkg/db"
-	"lheinrich.de/nerocp-backend/pkg/handler"
-	"lheinrich.de/nerocp-backend/pkg/shorts"
+	"github.com/lheinrichde/golib/pkg/db"
+	"github.com/lheinrichde/golib/pkg/handler"
 )
 
-// GetRoleID return role id
-type GetRoleID int
+// GetRoleID function
+func GetRoleID(conn net.Conn, request map[string]interface{}, username string) error {
+	var err error
 
-// Handle connection
-func (h GetRoleID) Handle(conn net.Conn, request map[string]interface{}, username string) {
 	// query database for role id
 	var roleID int
-	err := db.DB.QueryRow("SELECT roleID FROM users WHERE username = $1;", request["username"]).Scan(&roleID)
-	shorts.Check(err)
+	err = db.DB.QueryRow(`SELECT roles.roleID FROM roles
+	INNER JOIN users ON users.role = roles.roleID
+	WHERE users.username = $1;`, username).Scan(&roleID)
+	if err != nil {
+		return err
+	}
 
 	// set permissions and respond
 	response := map[string]interface{}{"roleID": roleID}
 	handler.Write(conn, response)
+
+	return nil
 }

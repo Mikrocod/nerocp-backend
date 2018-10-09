@@ -1,1 +1,1 @@
-go run cmd/nerocp-backend/nerocp-backend.go
+go run cmd/evortexcp-backend/evortexcp-backend.go

@@ -3,15 +3,16 @@
         "host": "127.0.0.1",
         "port": "5432",
         "ssl": "disable",
-        "database": "nerocp",
-        "username": "nerocp",
-        "password": "nerocp"
+        "database": "evortexcp",
+        "username": "evortexcp",
+        "password": "evortexcp"
     },
     "server": {
         "address": ":1649"
     },
     "app": {
         "logType": "file",
-        "logFile": "log.txt"
+        "logFile": "log.txt",
+        "modules": "modules"
     }
 }
